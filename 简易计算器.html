@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <title>
+            calculate
+        </title>
+        <meta http-equiv="Content-Type" content="text/html;charaset = utf-8" />
+        <style type="text/css">
+            body {
+                font:bolder 26px 楷体;
+            }
+            #result {
+                text-align:right;
+            }
+            table,td {
+                border:1px solid #C0C0C0;
+            }
+            td {
+                padding:10px;
+            }
+            button {
+                width:50px;
+                height:50px;
+            }
+            button:hover{
+                box-shadow:3px 3px 3px #eee;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <table>
+            <tr>
+                <td colspan="3" id="result">
+                    0
+                </td>
+                <td>
+                    <button type="button" value="C">
+                        C
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" value="1">
+                        1
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="2">
+                        2
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="3">
+                        3
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="+">
+                        +
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" value="4">
+                        4
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="5">
+                        5
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="6">
+                        6
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="-">
+                        -
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" value="7">
+                        7
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="8">
+                        8
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="9">
+                        9
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="*">
+                        *
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" value="0">
+                        0
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value=".">
+                        .
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="=">
+                        =
+                    </button>
+                </td>
+                <td>
+                    <button type="button" value="/">
+                        /
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        $(function(){
+            var ahead = false;
+            var later = false;
+            var btn = $("button");
+            var num1 = '',num2 = '',char;
+            btn.each(function(){
+                $(this).click(function(){
+                    var result1 = 0;
+                    var result = $("#result").text().trim();
+                    var num = $(this).text().trim();
+                    if((num == '+' || num == '-' || num == '*' || num == '/') && num !='=' && num !='C'){
+                        later = true;
+                        char = num;
+                        $("#result").append(num);
+                    }
+                    else if(ahead == false){
+                        num1 = num + num1;
+                        $("#result").text('');
+                        $("#result").append(num);
+                        ahead = true;
+                    }
+                    else if(ahead == true && later == false){
+                        num1 = num1 + num;
+                        $("#result").append(num);
+                        console.log(num1);
+                    }
+                    else if(num =='='){
+                        num1 = parseFloat(num1);
+                        
+                        num2 = parseFloat(num2);
+                        switch (char) {
+                            case '+':
+                                result1 = num1 + num2;
+                                break;
+                            case '-':
+                            result1 = num1 - num2;
+                                break;
+                            case '*':
+                            result1 = num1 * num2;
+                                break;
+                            case '/':
+                            
+                            result1 = (num1 / num2).toFixed(2);
+                                break;
+                        }
+                        $("#result").text(result1);
+                    }
+                    else if(num == 'C'){
+                        ahead = false;
+                        later = false;
+                        num1 = '';
+                        num2 = '';
+                        char = '';
+                        $("#result").text('0');
+                    }
+                    else if(ahead == true && later == true){
+                        
+                        num2 = num2 + num;
+                        $("#result").append(num);
+                    }
+            })
+                
+        })
+    })
+    </script>
+</html>
